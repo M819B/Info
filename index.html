@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M819_Dekuu - Gaming Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- Background Effects -->
+    <div class="background-animation">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <!-- Music Control -->
+    <div class="music-control">
+        <button id="musicToggle" class="music-btn">
+            <i class="fas fa-play"></i>
+        </button>
+        <div class="music-info">
+            <span>Gaming Vibes</span>
+        </div>
+    </div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="brand-text">M819_DEKUU</span>
+        </div>
+        <div class="nav-links">
+            <a href="https://www.youtube.com/@M819_Dekuu" target="_blank" class="nav-link youtube">
+                <i class="fab fa-youtube"></i>
+                <span>YouTube</span>
+            </a>
+            <a href="https://www.roblox.com/users/1936761233/profile" target="_blank" class="nav-link roblox">
+                <i class="fas fa-gamepad"></i>
+                <span>Roblox</span>
+            </a>
+            <a href="https://open.spotify.com/user/31dgudzlolnvguv6mabfdf4vzzbe" target="_blank" class="nav-link spotify">
+                <i class="fab fa-spotify"></i>
+                <span>Spotify</span>
+            </a>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="avatar-container">
+                    <div class="avatar-wrapper">
+                        <img id="userAvatar" src="" alt="Profile Avatar" class="avatar">
+                        <div class="status-ring" id="statusRing"></div>
+                        <div class="status-indicator" id="statusIndicator"></div>
+                    </div>
+                </div>
+                
+                <div class="profile-info">
+                    <h1 class="username" id="username">M819_Dekuu</h1>
+                    <p class="tagline">Elite Gamer & Content Creator</p>
+                    <div class="status-badge" id="statusBadge">
+                        <span class="status-text" id="statusText">Initializing...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Epic Wins</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">MAX</span>
+                        <span class="stat-label">Kill Streak</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">PRO</span>
+                        <span class="stat-label">Rank</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Activity Section -->
+        <section class="activity-section" id="activitySection">
+            <h2 class="section-title">
+                <i class="fas fa-gamepad"></i>
+                Current Activity
+            </h2>
+            <div class="activity-container" id="activityContainer">
+                <div class="loading-spinner">
+                    <i class="fas fa-sync fa-spin"></i>
+                    <span>Loading activity...</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Spotify Section -->
+        <section class="spotify-section" id="spotifySection" style="display: none;">
+            <h2 class="section-title">
+                <i class="fab fa-spotify"></i>
+                Now Playing
+            </h2>
+            <div class="spotify-container" id="spotifyContainer">
+                <!-- Spotify content will be inserted here -->
+            </div>
+        </section>
+        
+        <!-- Gaming Setup Section -->
+        <section class="setup-section">
+            <h2 class="section-title">
+                <i class="fas fa-desktop"></i>
+                Gaming Arsenal
+            </h2>
+            <div class="setup-grid">
+                <div class="setup-card">
+                    <div class="setup-icon"><i class="fas fa-microchip"></i></div>
+                    <h3>CPU</h3>
+                    <p>Beast Mode Processor</p>
+                </div>
+                <div class="setup-card">
+                    <div class="setup-icon"><i class="fas fa-memory"></i></div>
+                    <h3>GPU</h3>
+                    <p>Ultra Graphics Card</p>
+                </div>
+                <div class="setup-card">
+                    <div class="setup-icon"><i class="fas fa-mouse"></i></div>
+                    <h3>Gaming Mouse</h3>
+                    <p>Precision Weapon</p>
+                </div>
+                <div class="setup-card">
+                    <div class="setup-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>Mechanical KB</h3>
+                    <p>Tactical Interface</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 M819_Dekuu. Ready to dominate!</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy</a>
+                <a href="#" class="footer-link">Terms</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.soundjay.com/misc/sounds/magic-chime-02.wav" type="audio/wav">
+        <!-- Fallback for different audio formats -->
+    </audio>
+    
+    <script src="script.js"></script>
+</body>
+</html>

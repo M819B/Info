@@ -1,0 +1,23 @@
+{
+  "profile": {
+    "userId": "726790429055385620",
+    "autoUpdate": true,
+    "updateInterval": 30000
+  },
+  "api": {
+    "baseURL": "https://api.lanyard.rest/v1",
+    "timeout": 10000
+  },
+  "ui": {
+    "theme": "gradient",
+    "showActivities": true,
+    "showSpotify": true,
+    "showTimestamps": true,
+    "animations": true
+  },
+  "features": {
+    "realTimeUpdates": true,
+    "responsiveDesign": true,
+    "modernUI": true
+  }
+}

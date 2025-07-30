@@ -1,0 +1,84 @@
+{
+  "profile": {
+    "userId": "726790429055385620",
+    "displayName": "M819_Dekuu",
+    "theme": "red-gaming",
+    "tagline": "Elite Gamer & Content Creator",
+    "autoUpdate": true,
+    "updateInterval": 30000
+  },
+  "socialLinks": {
+    "youtube": {
+      "url": "https://www.youtube.com/@M819_Dekuu",
+      "icon": "fab fa-youtube",
+      "color": "#FF0000",
+      "displayName": "YouTube"
+    },
+    "roblox": {
+      "url": "https://www.roblox.com/users/1936761233/profile",
+      "icon": "fas fa-gamepad",
+      "color": "#00A2FF",
+      "displayName": "Roblox"
+    },
+    "spotify": {
+      "url": "https://open.spotify.com/user/31dgudzlolnvguv6mabfdf4vzzbe",
+      "icon": "fab fa-spotify",
+      "color": "#1DB954",
+      "displayName": "Spotify"
+    }
+  },
+  "api": {
+    "baseURL": "https://api.lanyard.rest/v1",
+    "timeout": 10000,
+    "retryAttempts": 3
+  },
+  "ui": {
+    "theme": {
+      "primaryColor": "#FF0000",
+      "secondaryColor": "#8B0000",
+      "accentColor": "#FF3333",
+      "backgroundColor": "#0A0A0A"
+    },
+    "animations": {
+      "enabled": true,
+      "duration": 300,
+      "easing": "ease-in-out"
+    },
+    "features": {
+      "showActivities": true,
+      "showSpotify": true,
+      "showTimestamps": true,
+      "particleEffects": true,
+      "backgroundAnimation": true,
+      "customCursor": true,
+      "musicControl": true,
+      "glitchEffects": true
+    }
+  },
+  "gaming": {
+    "statusMessages": {
+      "online": "🔥 Ready to Dominate!",
+      "idle": "⏰ Taking a Break",
+      "dnd": "🎮 In Game Mode",
+      "offline": "💤 Offline"
+    },
+    "activityTypes": {
+      "0": { "name": "Playing", "icon": "🎮" },
+      "1": { "name": "Streaming", "icon": "📺" },
+      "2": { "name": "Listening", "icon": "🎵" },
+      "3": { "name": "Watching", "icon": "👀" },
+      "5": { "name": "Competing", "icon": "🏆" }
+    },
+    "stats": {
+      "wins": "∞",
+      "killStreak": "MAX",
+      "rank": "PRO"
+    }
+  },
+  "setup": {
+    "cpu": "Beast Mode Processor",
+    "gpu": "Ultra Graphics Card", 
+    "mouse": "Precision Weapon",
+    "keyboard": "Tactical Interface"
+  }
+}

@@ -1,9 +1,8 @@
 {
   "profile": {
     "userId": "726790429055385620",
-    "displayName": "M819_Dekuu",
+    "displayName": "M819_DEKUU",
     "theme": "red-gaming",
-    "tagline": "Elite Gamer & Content Creator",
     "autoUpdate": true,
     "updateInterval": 30000
   },
@@ -27,11 +26,6 @@
       "displayName": "Spotify"
     }
   },
-  "api": {
-    "baseURL": "https://api.lanyard.rest/v1",
-    "timeout": 10000,
-    "retryAttempts": 3
-  },
   "ui": {
     "theme": {
       "primaryColor": "#FF0000",
@@ -39,46 +33,17 @@
       "accentColor": "#FF3333",
       "backgroundColor": "#0A0A0A"
     },
-    "animations": {
-      "enabled": true,
-      "duration": 300,
-      "easing": "ease-in-out"
-    },
     "features": {
-      "showActivities": true,
-      "showSpotify": true,
-      "showTimestamps": true,
-      "particleEffects": true,
-      "backgroundAnimation": true,
       "customCursor": true,
-      "musicControl": true,
-      "glitchEffects": true
+      "particleEffects": true,
+      "backgroundMusic": true,
+      "glitchEffects": true,
+      "autoRefresh": true,
+      "ultraFastCursor": true
     }
   },
-  "gaming": {
-    "statusMessages": {
-      "online": "🔥 Ready to Dominate!",
-      "idle": "⏰ Taking a Break",
-      "dnd": "🎮 In Game Mode",
-      "offline": "💤 Offline"
-    },
-    "activityTypes": {
-      "0": { "name": "Playing", "icon": "🎮" },
-      "1": { "name": "Streaming", "icon": "📺" },
-      "2": { "name": "Listening", "icon": "🎵" },
-      "3": { "name": "Watching", "icon": "👀" },
-      "5": { "name": "Competing", "icon": "🏆" }
-    },
-    "stats": {
-      "wins": "∞",
-      "killStreak": "MAX",
-      "rank": "PRO"
-    }
-  },
-  "setup": {
-    "cpu": "Beast Mode Processor",
-    "gpu": "Ultra Graphics Card", 
-    "mouse": "Precision Weapon",
-    "keyboard": "Tactical Interface"
+  "media": {
+    "backgroundVideo": "background.mp4",
+    "backgroundMusic": "chill-music.mp3"
   }
 }

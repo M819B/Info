@@ -1,368 +1,269 @@
 class GamingProfile {
     constructor() {
         this.userId = '726790429055385620';
-        this.apiUrl = 'https://api.lanyard.rest/v1/users/';
-        this.isPlaying = false;
+        this.apiUrl = `https://api.lanyard.rest/v1/users/${this.userId}`;
+        this.backgroundMusic = document.getElementById('background-music');
+        this.musicToggle = document.getElementById('music-toggle');
+        this.volumeSlider = document.getElementById('volume-slider');
+        
         this.init();
     }
 
     init() {
         this.setupCursor();
-        this.setupMusicControl();
-        this.loadProfile();
-        this.startStatusUpdates();
-        this.addScrollEffects();
+        this.setupParticles();
+        this.setupMusicControls();
+        this.fetchDiscordStatus();
+        this.startAutoRefresh();
     }
 
-    // Custom Cursor
+    // Ultra Fast Custom Cursor
     setupCursor() {
         const cursor = document.querySelector('.cursor');
         const follower = document.querySelector('.cursor-follower');
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
 
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 10 + 'px';
-            cursor.style.top = e.clientY - 10 + 'px';
+            mouseX = e.clientX;
+            mouseY = e.clientY;
             
-            setTimeout(() => {
-                follower.style.left = e.clientX - 20 + 'px';
-                follower.style.top = e.clientY - 20 + 'px';
-            }, 100);
+            // Ultra fast cursor movement
+            cursor.style.left = mouseX - 10 + 'px';
+            cursor.style.top = mouseY - 10 + 'px';
         });
 
+        // Smooth follower animation
+        const animateFollower = () => {
+            const speed = 0.15;
+            followerX += (mouseX - followerX) * speed;
+            followerY += (mouseY - followerY) * speed;
+            
+            follower.style.left = followerX - 20 + 'px';
+            follower.style.top = followerY - 20 + 'px';
+            
+            requestAnimationFrame(animateFollower);
+        };
+        animateFollower();
+
         // Cursor hover effects
-        const hoverElements = document.querySelectorAll('button, a, .stat-card, .setup-card');
-        hoverElements.forEach(el => {
+        const interactiveElements = document.querySelectorAll('a, button, .social-link');
+        interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursor.style.transform = 'scale(1.5)';
-                follower.style.transform = 'scale(1.2)';
+                follower.style.transform = 'scale(1.3)';
+                follower.style.borderColor = '#FF3333';
             });
             
             el.addEventListener('mouseleave', () => {
                 cursor.style.transform = 'scale(1)';
                 follower.style.transform = 'scale(1)';
+                follower.style.borderColor = '#FF0000';
             });
         });
     }
 
-    // Music Control
-    setupMusicControl() {
-        const musicBtn = document.getElementById('musicToggle');
-        const audio = document.getElementById('backgroundMusic');
-        
-        // Create a simple audio context for background music
-        this.createBackgroundMusic();
-        
-        musicBtn.addEventListener('click', () => {
-            if (this.isPlaying) {
-                this.stopMusic();
-                musicBtn.innerHTML = '<i class="fas fa-play"></i>';
+    // Particle System
+    setupParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // Music Controls
+    setupMusicControls() {
+        this.backgroundMusic.volume = 0.3;
+
+        this.musicToggle.addEventListener('click', () => {
+            if (this.backgroundMusic.paused) {
+                this.backgroundMusic.play();
+                this.musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
             } else {
-                this.playMusic();
-                musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                this.backgroundMusic.pause();
+                this.musicToggle.innerHTML = '<i class="fas fa-play"></i>';
             }
-            this.isPlaying = !this.isPlaying;
+        });
+
+        this.volumeSlider.addEventListener('input', (e) => {
+            this.backgroundMusic.volume = e.target.value / 100;
         });
     }
 
-    createBackgroundMusic() {
-        // Create a simple ambient gaming sound using Web Audio API
+    // Discord Status Fetching
+    async fetchDiscordStatus() {
         try {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            this.oscillator = null;
-            this.gainNode = null;
-        } catch (e) {
-            console.log('Web Audio API not supported');
-        }
-    }
-
-    playMusic() {
-        if (!this.audioContext) return;
-        
-        this.oscillator = this.audioContext.createOscillator();
-        this.gainNode = this.audioContext.createGain();
-        
-        this.oscillator.connect(this.gainNode);
-        this.gainNode.connect(this.audioContext.destination);
-        
-        // Create ambient gaming atmosphere
-        this.oscillator.frequency.setValueAtTime(55, this.audioContext.currentTime); // Low bass
-        this.oscillator.type = 'sine';
-        this.gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
-        
-        this.oscillator.start();
-        
-        // Add some variation
-        this.musicInterval = setInterval(() => {
-            if (this.oscillator) {
-                const freq = 55 + Math.random() * 20;
-                this.oscillator.frequency.setValueAtTime(freq, this.audioContext.currentTime);
-            }
-        }, 2000);
-    }
-
-    stopMusic() {
-        if (this.oscillator) {
-            this.oscillator.stop();
-            this.oscillator = null;
-        }
-        if (this.musicInterval) {
-            clearInterval(this.musicInterval);
-        }
-    }
-
-    // Load Discord Profile
-    async loadProfile() {
-        try {
-            const response = await fetch(`${this.apiUrl}${this.userId}`);
+            const response = await fetch(this.apiUrl);
             const data = await response.json();
             
             if (data.success) {
                 this.updateProfile(data.data);
-                this.updateActivities(data.data.activities);
-                this.updateSpotify(data.data.spotify, data.data.listening_to_spotify);
+            } else {
+                this.showError('Failed to fetch Discord status');
             }
         } catch (error) {
-            console.error('Failed to load profile:', error);
-            this.showError();
+            console.error('Error fetching Discord status:', error);
+            this.showError('Unable to connect to Discord API');
         }
     }
 
     updateProfile(userData) {
-        const avatar = document.getElementById('userAvatar');
-        const username = document.getElementById('username');
-        const statusBadge = document.getElementById('statusBadge');
-        const statusText = document.getElementById('statusText');
-        const statusIndicator = document.getElementById('statusIndicator');
-        const statusRing = document.getElementById('statusRing');
-
         // Update avatar
-        if (userData.discord_user.avatar) {
-            const avatarUrl = `https://cdn.discordapp.com/avatars/${userData.discord_user.id}/${userData.discord_user.avatar}.png?size=256`;
-            avatar.src = avatarUrl;
-        }
+        const avatar = document.getElementById('avatar');
+        const avatarUrl = userData.discord_user.avatar 
+            ? `https://cdn.discordapp.com/avatars/${userData.discord_user.id}/${userData.discord_user.avatar}.png?size=256`
+            : 'https://cdn.discordapp.com/embed/avatars/0.png';
+        avatar.src = avatarUrl;
 
         // Update username
+        const username = document.getElementById('username');
         username.textContent = userData.discord_user.global_name || userData.discord_user.username;
 
         // Update status
-        const status = userData.discord_status;
-        const statusMessages = {
-            'online': '🔥 Ready to Dominate!',
-            'idle': '⏰ Taking a Break',
-            'dnd': '🎮 In Game Mode',
-            'offline': '💤 Offline'
+        this.updateStatus(userData.discord_status);
+        
+        // Update activities
+        this.updateActivities(userData.activities);
+        
+        // Update Spotify
+        if (userData.listening_to_spotify && userData.spotify) {
+            this.updateSpotify(userData.spotify);
+        }
+    }
+
+    updateStatus(status) {
+        const statusIndicator = document.getElementById('status-indicator');
+        const statusText = document.getElementById('status-text');
+        const statusBadge = document.getElementById('status-badge');
+
+        const statusConfig = {
+            online: { color: '#00FF00', text: 'Online', display: 'Online' },
+            idle: { color: '#FFA500', text: 'Away', display: 'Away' },
+            dnd: { color: '#FF0000', text: 'Do Not Disturb', display: 'Do Not Disturb' },
+            offline: { color: '#808080', text: 'Offline', display: 'Offline' }
         };
 
-        statusText.textContent = statusMessages[status] || 'Unknown Status';
-        statusIndicator.className = `status-indicator status-${status}`;
-        statusRing.style.borderColor = this.getStatusColor(status);
+        const config = statusConfig[status] || statusConfig.offline;
+        
+        statusIndicator.style.backgroundColor = config.color;
+        statusText.textContent = `Status: ${config.text}`;
+        statusBadge.textContent = config.display;
+        statusBadge.className = `status-badge ${status}`;
     }
 
     updateActivities(activities) {
-        const container = document.getElementById('activityContainer');
-        
+        const activitiesSection = document.getElementById('activities-section');
+        const activitiesContainer = document.getElementById('activities-container');
+
         if (!activities || activities.length === 0) {
-            container.innerHTML = `
-                <div class="activity-card">
-                    <div class="activity-icon">🎮</div>
-                    <div class="activity-info">
-                        <h3>No Current Activity</h3>
-                        <p>Ready for the next gaming session!</p>
-                    </div>
-                </div>
-            `;
+            activitiesSection.style.display = 'none';
             return;
         }
 
-        container.innerHTML = activities.map(activity => {
-            const activityIcons = {
-                0: '🎮', // Playing
-                1: '📺', // Streaming  
-                2: '🎵', // Listening
-                3: '👀', // Watching
-                5: '🏆'  // Competing
-            };
+        activitiesSection.style.display = 'block';
+        activitiesContainer.innerHTML = '';
 
-            const icon = activityIcons[activity.type] || '🎮';
-            const timeStr = activity.timestamps?.start ? 
-                this.formatTime(Date.now() - activity.timestamps.start) : '';
+        activities.forEach(activity => {
+            const activityElement = document.createElement('div');
+            activityElement.className = 'activity-item';
+            
+            const activityType = this.getActivityType(activity.type);
+            const startTime = activity.timestamps?.start 
+                ? this.formatTimestamp(activity.timestamps.start)
+                : '';
 
-            return `
-                <div class="activity-card">
-                    <div class="activity-icon">${icon}</div>
-                    <div class="activity-info">
-                        <h3>${activity.name}</h3>
-                        ${activity.details ? `<p>${activity.details}</p>` : ''}
-                        ${activity.state ? `<p>${activity.state}</p>` : ''}
-                        ${timeStr ? `<div class="activity-time">Playing for ${timeStr}</div>` : ''}
-                    </div>
+            activityElement.innerHTML = `
+                <div class="activity-header">
+                    <h3>${activity.name}</h3>
+                    <span class="activity-type">${activityType}</span>
                 </div>
+                ${activity.details ? `<p class="activity-details">${activity.details}</p>` : ''}
+                ${activity.state ? `<p class="activity-state">${activity.state}</p>` : ''}
+                ${startTime ? `<p class="activity-time">Started ${startTime}</p>` : ''}
             `;
-        }).join('');
+
+            activitiesContainer.appendChild(activityElement);
+        });
     }
 
-    updateSpotify(spotify, isListening) {
-        const section = document.getElementById('spotifySection');
-        const container = document.getElementById('spotifyContainer');
+    updateSpotify(spotify) {
+        const spotifySection = document.getElementById('spotify-section');
+        const spotifyContent = document.getElementById('spotify-content');
 
-        if (!isListening || !spotify) {
-            section.style.display = 'none';
-            return;
-        }
-
-        section.style.display = 'block';
-        container.innerHTML = `
-            <div class="spotify-card">
-                <img src="${spotify.album_art_url}" alt="Album Art" class="album-art">
+        spotifySection.style.display = 'block';
+        
+        spotifyContent.innerHTML = `
+            <div class="spotify-track">
+                <img src="${spotify.album_art_url}" alt="Album Art">
                 <div class="track-info">
                     <h3>${spotify.song}</h3>
-                    <div class="artist">by ${spotify.artist}</div>
-                    <div class="album">on ${spotify.album}</div>
+                    <p>by ${spotify.artist}</p>
+                    <p>on ${spotify.album}</p>
                 </div>
             </div>
         `;
     }
 
-    getStatusColor(status) {
-        const colors = {
-            'online': '#00FF00',
-            'idle': '#FFA500', 
-            'dnd': '#FF0000',
-            'offline': '#808080'
+    getActivityType(type) {
+        const types = {
+            0: 'Playing',
+            1: 'Streaming',
+            2: 'Listening to',
+            3: 'Watching',
+            5: 'Competing in'
         };
-        return colors[status] || '#808080';
+        return types[type] || 'Activity';
     }
 
-    formatTime(ms) {
-        const seconds = Math.floor(ms / 1000);
-        const minutes = Math.floor(seconds / 60);
+    formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+        
+        const minutes = Math.floor(diff / 60000);
         const hours = Math.floor(minutes / 60);
-
+        
         if (hours > 0) {
-            return `${hours}h ${minutes % 60}m`;
-        } else if (minutes > 0) {
-            return `${minutes}m`;
+            return `${hours}h ${minutes % 60}m ago`;
         } else {
-            return `${seconds}s`;
+            return `${minutes}m ago`;
         }
     }
 
-    startStatusUpdates() {
-        // Update every 30 seconds
+    showError(message) {
+        const statusText = document.getElementById('status-text');
+        statusText.textContent = message;
+        statusText.style.color = '#FF0000';
+    }
+
+    startAutoRefresh() {
+        // Refresh every 30 seconds
         setInterval(() => {
-            this.loadProfile();
+            this.fetchDiscordStatus();
         }, 30000);
-    }
-
-    addScrollEffects() {
-        // Add parallax and scroll animations
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('.background-animation');
-            const speed = scrolled * 0.5;
-            
-            if (parallax) {
-                parallax.style.transform = `translateY(${speed}px)`;
-            }
-
-            // Animate cards on scroll
-            const cards = document.querySelectorAll('.stat-card, .setup-card, .activity-card');
-            cards.forEach(card => {
-                const cardTop = card.offsetTop;
-                const cardHeight = card.offsetHeight;
-                const windowHeight = window.innerHeight;
-                
-                if (scrolled + windowHeight > cardTop + cardHeight / 4) {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }
-            });
-        });
-
-        // Initialize cards as hidden
-        const cards = document.querySelectorAll('.stat-card, .setup-card');
-        cards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(50px)';
-            card.style.transition = 'all 0.6s ease';
-        });
-    }
-
-    showError() {
-        const container = document.getElementById('activityContainer');
-        container.innerHTML = `
-            <div class="activity-card">
-                <div class="activity-icon">⚠️</div>
-                <div class="activity-info">
-                    <h3>Connection Error</h3>
-                    <p>Unable to load Discord status. Check your connection!</p>
-                </div>
-            </div>
-        `;
     }
 }
 
 // Initialize the gaming profile when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new GamingProfile();
-    
-    // Add some extra gaming effects
-    addGamingEffects();
 });
 
-function addGamingEffects() {
-    // Random glitch effect on username
-    const username = document.querySelector('.username');
-    if (username) {
-        setInterval(() => {
-            if (Math.random() < 0.1) { // 10% chance every interval
-                username.style.animation = 'glitch 0.3s ease-in-out';
-                setTimeout(() => {
-                    username.style.animation = '';
-                }, 300);
-            }
-        }, 5000);
-    }
-
-    // Particle system enhancement
-    createFloatingParticles();
-}
-
-function createFloatingParticles() {
-    const container = document.querySelector('.background-animation');
-    
-    setInterval(() => {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-        particle.style.opacity = Math.random() * 0.5 + 0.3;
-        
-        container.appendChild(particle);
-        
-        // Remove particle after animation
-        setTimeout(() => {
-            if (particle.parentNode) {
-                particle.parentNode.removeChild(particle);
-            }
-        }, 6000);
-    }, 2000);
-}
-
-// Add keyboard shortcuts for gaming feel
+// Add some extra gaming effects
 document.addEventListener('keydown', (e) => {
-    // Easter eggs for gaming keys
-    if (e.code === 'KeyW' && e.ctrlKey) {
-        e.preventDefault();
-        document.querySelector('.username').style.color = '#00FF00';
+    // Easter egg: Press 'G' for glitch effect
+    if (e.key.toLowerCase() === 'g') {
+        document.body.style.animation = 'glitch 0.3s ease-in-out';
         setTimeout(() => {
-            document.querySelector('.username').style.color = '';
-        }, 1000);
-    }
-    
-    if (e.code === 'Space' && e.ctrlKey) {
-        e.preventDefault();
-        const musicBtn = document.getElementById('musicToggle');
-        musicBtn.click();
+            document.body.style.animation = '';
+        }, 300);
     }
 });

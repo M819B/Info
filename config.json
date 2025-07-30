@@ -1,23 +1,64 @@
 {
   "profile": {
     "userId": "726790429055385620",
+    "displayName": "M819_DEKUU",
+    "theme": "red-gaming",
+    "tagline": "🔥 ELITE GAMER & CONTENT CREATOR 🔥",
     "autoUpdate": true,
     "updateInterval": 30000
   },
-  "api": {
-    "baseURL": "https://api.lanyard.rest/v1",
-    "timeout": 10000
+  "socialLinks": {
+    "youtube": {
+      "url": "https://www.youtube.com/@M819_Dekuu",
+      "icon": "fab fa-youtube",
+      "color": "#FF0000",
+      "displayName": "YouTube"
+    },
+    "roblox": {
+      "url": "https://www.roblox.com/users/1936761233/profile",
+      "icon": "fas fa-gamepad",
+      "color": "#00A2FF",
+      "displayName": "Roblox"
+    },
+    "spotify": {
+      "url": "https://open.spotify.com/user/31dgudzlolnvguv6mabfdf4vzzbe",
+      "icon": "fab fa-spotify",
+      "color": "#1DB954",
+      "displayName": "Spotify"
+    }
+  },
+  "gaming": {
+    "statusMessages": {
+      "online": "🔥 Ready to Dominate!",
+      "idle": "⏰ Taking a Break",
+      "dnd": "🎮 In Game Mode",
+      "offline": "💤 Offline"
+    },
+    "stats": {
+      "wins": "∞",
+      "killStreak": "MAX",
+      "rank": "PRO"
+    },
+    "setup": {
+      "cpu": "Beast Mode CPU",
+      "gpu": "Ultra Graphics GPU",
+      "mouse": "Precision Weapon",
+      "keyboard": "Tactical Interface"
+    }
   },
   "ui": {
-    "theme": "gradient",
-    "showActivities": true,
-    "showSpotify": true,
-    "showTimestamps": true,
-    "animations": true
-  },
-  "features": {
-    "realTimeUpdates": true,
-    "responsiveDesign": true,
-    "modernUI": true
+    "theme": {
+      "primaryColor": "#FF0000",
+      "secondaryColor": "#8B0000",
+      "accentColor": "#FF3333",
+      "backgroundColor": "#0A0A0A"
+    },
+    "features": {
+      "customCursor": true,
+      "particleEffects": true,
+      "backgroundMusic": true,
+      "glitchEffects": true,
+      "autoRefresh": true
+    }
   }
 }
